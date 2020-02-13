@@ -10,8 +10,8 @@ In this project you'll find:
 
 # Info on EVPN/VXLAN
 
-White Paper on EVPN/VXLAN available on Juniper.net
-http://www.juniper.net/assets/us/en/local/pdf/whitepapers/2000606-en.pdf
+EVPN/VXLAN reference architecture available on Juniper.net
+https://www.juniper.net/documentation/en_US/release-independent/solutions/information-products/pathway-pages/sg-005-data-center-fabric.pdf
 
 # Documentation
 
@@ -28,11 +28,9 @@ Here are some links to specific features:
 - [Vlan Normalization configuration on access ports](config/leaf-01.conf)
 - Active/Active LAG between 2 devices using ESI. [Switch1](config/leaf-03.conf)/[Switch2](config/leaf-04.conf)
 
-# Contributing
-
-Please refer to the file [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 # Requirements
- - Ansible
+ - Python 3.8.1
+ - Ansible 2.9.3
  - [juniper.junos module for Ansible](https://github.com/Juniper/ansible-junos-stdlib) (min 1.2.2)
  - [junos-eznc](https://github.com/Juniper/py-junos-eznc)
