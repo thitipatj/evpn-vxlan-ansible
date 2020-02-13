@@ -1,0 +1,59 @@
+
+########################################################################
+# System variable used to define temporary directory
+# please update tmp_dir variable if needed
+########################################################################
+tmp_dir: /tmp/build
+build_dir: "{{ tmp_dir }}/{{ inventory_hostname }}/tmp"
+junos_conf: "config/{{ inventory_hostname }}.conf"
+
+################################################################################
+# Global Variables used to generate the common part of the configuration
+# please update these variable and the template as needed to match your environment
+################################################################################
+global:
+    root_hash: $6$u34Ph1y8$g7rC2/p5UPFmM27FMkemjkbv/MarEXhQ0VHbSD8tJkACqXLNvornDK2TUWQrQNo2gpd9FTyLtvrYU.qOvZf.G.
+    login_message: TUC Core Switch EVPN/VXLAN POC.
+    time_zone: Asia/Bangkok
+    name_servers:
+    - 8.8.8.8
+    ntp_servers:
+    - 1.th.pool.ntp.org
+    snmp:
+        location: "pplus"
+        contact: TJ
+        polling:
+        - community: public
+    routes:
+      static:
+        172.0.0.0/8: 10.94.194.254
+
+############################################################################
+###   Physical interfaces name                                           ###
+############################################################################
+topo:
+  fabric-01:
+    port1: { name: et-0/0/48,    peer: spine-01,     pport: port3,     type: ebgp, link: 5,    linkend: 2  }
+    port2: { name: et-0/0/50,    peer: spine-02,     pport: port3,     type: ebgp, link: 7,    linkend: 2  }
+
+  spine-01:
+    port1: { name: ge-0/0/12,    peer: leaf-01,      pport: port1,     type: ebgp, link: 1,   linkend: 1 }
+    port2: { name: ge-0/0/18,    peer: leaf-02,      pport: port1,     type: ebgp, link: 2,   linkend: 1 }
+    port3: { name: et-0/0/48,    peer: fabric-01,    pport: port1,     type: ebgp, link: 5,   linkend: 1 }
+
+  spine-02:
+    port1: { name: ge-0/0/12,    peer: leaf-01,      pport: port2,     type: ebgp, link: 3,   linkend: 1 }
+    port2: { name: ge-0/0/18,    peer: leaf-02,      pport: port2,     type: ebgp, link: 4,   linkend: 1 }
+    port3: { name: et-0/0/48,    peer: fabric-01,    pport: port2,     type: ebgp, link: 7,   linkend: 1 }
+
+  leaf-01:
+    port1: { name: ge-0/0/0,    peer: spine-01,     pport: port1,     type: ebgp, link: 1,   linkend: 2 }
+    port2: { name: ge-0/0/2,    peer: spine-02,     pport: port1,     type: ebgp, link: 3,   linkend: 2 }
+    port3: { name: ge-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: ge-0/0/13,    peer: access,       pport: unknown }
+
+  leaf-02:
+    port1: { name: ge-0/0/0,    peer: spine-01,     pport: port2,     type: ebgp, link: 2,   linkend: 2 }
+    port2: { name: ge-0/0/2,    peer: spine-02,     pport: port2,     type: ebgp, link: 4,   linkend: 2 }
+    port3: { name: ge-0/0/12,    peer: access,       pport: unknown }
+    port4: { name: ge-0/0/13,    peer: access,       pport: unknown }
